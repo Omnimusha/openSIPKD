@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:define-macro="layout">
+<head>
+    <meta charset="utf-8">
+    <title>${title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="sistem informasi keuangan daerah">
+    <meta name="author" content="irul">
+
+    <!-- Fav and touch icons -->
+    <link rel="shortcut icon" href="${request.static_url('sipkd:static/ico/favicon.png')}">
+
+    <!-- Le styles -->
+    <link href="${request.static_url('sipkd:static/bootstrap/css/bootstrap.css')}" rel="stylesheet">
+    <link href="${request.static_url('sipkd:static/css/ui-lightness/jquery-ui-1.10.2.custom.min.css')}" rel="stylesheet">
+    <link href="${request.static_url('sipkd:static/bootstrap/css/bootstrap-responsive.css')}" rel="stylesheet">
+    <link href="${request.static_url('sipkd:static/css/font-static.css')}" rel="stylesheet">
+    <link href="${request.static_url('sipkd:static/jq/datatables/css/jquery.dataTables.css')}" rel="stylesheet">
+    <link href="${request.static_url('sipkd:static/jq/tabletools/css/TableTools.css')}" rel="stylesheet">
+
+    <script src="${request.static_url('sipkd:static/jq/jquery-1.10.2.min.js')}"></script>
+    <!--script src="${request.static_url('sipkd:static/js/jquery-ui-1.10.2.custom.min.js')}"></script-->
+    <script src="${request.static_url('sipkd:static/bootstrap/js/bootstrap-transition.js')}"></script>
+    <script src="${request.static_url('sipkd:static/bootstrap/js/bootstrap-alert.js')}"></script>
+    <script src="${request.static_url('sipkd:static/bootstrap/js/bootstrap-modal.js')}"></script>
+    <script src="${request.static_url('sipkd:static/bootstrap/js/bootstrap-dropdown.js')}"></script>
+    <script src="${request.static_url('sipkd:static/bootstrap/js/bootstrap-scrollspy.js')}"></script>
+    <script src="${request.static_url('sipkd:static/bootstrap/js/bootstrap-tab.js')}"></script>
+    <script src="${request.static_url('sipkd:static/bootstrap/js/bootstrap-tooltip.js')}"></script>
+    <script src="${request.static_url('sipkd:static/bootstrap/js/bootstrap-popover.js')}"></script>
+    <script src="${request.static_url('sipkd:static/bootstrap/js/bootstrap-button.js')}"></script>
+    <script src="${request.static_url('sipkd:static/bootstrap/js/bootstrap-collapse.js')}"></script>
+    <script src="${request.static_url('sipkd:static/bootstrap/js/bootstrap-carousel.js')}"></script>
+    <script src="${request.static_url('sipkd:static/bootstrap/js/bootstrap-typeahead.js')}"></script>	
+    
+    <script src="${request.static_url('sipkd:static/jq/datatables/js/jquery.dataTables.js')}"></script>
+    <script src="${request.static_url('sipkd:static/jq/tabletools/js/ZeroClipboard.js')}"></script>
+    <script src="${request.static_url('sipkd:static/jq/tabletools/js/TableTools.min.js')}"></script>
+
+    <style>
+        body {
+            padding-top: 70px; /* 60px to make the container go all the way to the bottom of the topbar */
+            padding-bottom: 40px;
+        }
+        html {
+            overflow: -moz-scrollbars-vertical; /* Always show scrollbar */
+        }
+    </style>
+
+  
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="<?=base_url()?>assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <script>
+        var timer;
+        var wait=10;
+        document.onkeypress=resetTimer;
+        document.onmousemove=resetTimer;
+        
+        function resetTimer() {
+            clearTimeout(timer);
+            timer=setTimeout("logout()", 60000*wait);
+        }
+
+        function logout() {
+            window.location.href='/logout';
+        }
+        
+        $(document).ready(function() {		
+            $('#app_id').change( function() {
+                window.location = '/'+$('#app_id').val();
+            });
+            
+            $('#msg_helper').delay(5000).fadeOut('slow');
+            
+            $('#modalform').on('hidden', function() {
+                $(this).removeData('modal');
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+  <div id="modalform" class="modal hide fade in">
+      <!--div class="modal-header">
+          <a class="close" data-dismiss="modal">X</a>
+          <h3>FORM</h3>
+      </div-->
+      <div class="modal-body"></div>
+      <!--div class="modal-footer">
+          <input type="submit" class="btn btn-success" value="Save"/>
+      </div-->
+  </div>
+    
+  <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+          <div class="container-fluid">
+              <button class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse" type="button"></button>
+              <a class="brand" href="http://ospbb.opensipkd.com/"><img src="${request.static_url('sipkd:static/img/logo.png')}" width="200"></a>
+               <div metal:define-slot="logged">
+               </div>
+               <div metal:define-slot="apps">
+               </div>
+          </div>
+      </div>
+  </div>
+
+  <div metal:define-slot="navbar">
+  </div>
+
+  <div metal:define-slot="content">
+  </div>
+
+  <footer>
+      <div class="container-fluid" style="position:fixed; bottom:0;">
+          <p class="muted credit"><strong><a href="http://opensipkd.com">&copy; OpenSIPKD 2013 </a></strong></p>
+      </div>
+  </footer>
+
+</body>
+</html>
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<div metal:use-macro="view.layout">
+  <div metal:fill-slot="navbar">
+    <div class="navbar navbar-inverse">
+      <div class="navbar-inner">
+          <ul class="nav">
+              <li class="active">
+                  <a href="#" ><strong>Login</strong></a>
+              </li>
+          </ul>
+        <div class="nav-collapse collapse"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div metal:fill-slot="content">
+    <div class="container-fluid">
+      <div id="msg_helper" class="alert alert-info"><button type="button"
+          class="close" data-dismiss="alert">&times;</button>${message}</div>
+    </div>
+    
+    <div class="container-fluid">
+      <form id="frmlogin" class="form-horizontal" action="/login" method="post">
+      <!--form class="form-horizontal"-->
+        <div class="control-group">
+          <label class="control-label" for="userid">User ID</label>
+          <div class="controls"> 
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-user"></i></span>
+              <input type="text" name="userid" placeholder="User ID">
+            </div>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label" for="passwd">Password</label>
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-lock"></i></span>
+              <input type="password" name="passwd" placeholder="Password">
+            </div>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="controls">
+            <!--label class="checkbox">
+              <input type="checkbox"> Remember me
+            </label-->
+            <button type="submit" class="btn btn-large btn-primary" id="login" name="login">Login</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
