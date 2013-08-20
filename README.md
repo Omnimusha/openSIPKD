@@ -1,2 +1,2 @@
-openSIPKD
+OpenSIPKD
 =========
