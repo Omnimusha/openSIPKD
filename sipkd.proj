@@ -1,0 +1,68 @@
+<NotepadPlus>
+    <Project name="pbb">
+        <Folder name="model">
+            <File name="sipkd\models\pbb\dat_objek_pajak.py" />
+            <File name="sipkd\models\pbb\pbb.py" />
+        </Folder>
+        <Folder name="script">
+            <File name="sipkd\static\js\pbb\spop.js" />
+        </Folder>
+        <Folder name="template">
+            <File name="sipkd\templates\pbbd\home.pt" />
+            <File name="sipkd\templates\pbbd\lspop.pt" />
+            <File name="sipkd\templates\pbbd\nav.pt" />
+            <File name="sipkd\templates\pbbd\spop.pt" />
+        </Folder>
+        <File name="sipkd\views\pbbd\pbbd.py" />
+        <File name="sipkd\views\pbbd\spops.py" />
+    </Project>
+    <Project name="admin">
+        <File name="sipkd\__init__.py" />
+        <Folder name="models">
+            <File name="sipkd\models\__init__.py" />
+            <File name="sipkd\models\apps.py" />
+            <File name="sipkd\models\groupmodules.py" />
+            <File name="sipkd\models\groups.py" />
+            <File name="sipkd\models\model.py" />
+            <File name="sipkd\models\modules.py" />
+            <File name="sipkd\models\usergroups.py" />
+            <File name="sipkd\models\users.py" />
+            <Folder name="pospbb" />
+            <Folder name="pbbd" />
+            <Folder name="p" />
+        </Folder>
+        <Folder name="scripts">
+            <File name="sipkd\scripts\__init__.py" />
+            <File name="sipkd\scripts\initializedb.py" />
+            <File name="sipkd\scripts\initializedb.pyc" />
+        </Folder>
+        <File name="sipkd\tests.py" />
+        <Folder name="views">
+            <File name="sipkd\views\views.py" />
+            <File name="sipkd\views\admin.py" />
+            <File name="sipkd\views\homes.py" />
+            <Folder name="pbbm" />
+            <Folder name="pbbpos" />
+            <File name="sipkd\views\pbbd\pbbd.py" />
+        </Folder>
+        <File name="development.ini" />
+        <Folder name="template">
+            <Folder name="pbbm">
+                <File name="sipkd\templates\pbbm\home.pt" />
+            </Folder>
+            <Folder name="pbbpos">
+                <File name="sipkd\templates\pbbpos\home.pt" />
+            </Folder>
+            <File name="sipkd\templates\home.pt" />
+            <File name="sipkd\templates\layout.pt" />
+            <File name="sipkd\templates\main.pt" />
+            <File name="sipkd\templates\mytemplate.pt" />
+            <Folder name="admin">
+                <File name="sipkd\templates\admin\apps.pt" />
+                <File name="sipkd\templates\admin\home.pt" />
+                <File name="sipkd\templates\admin\nav.pt" />
+            </Folder>
+        </Folder>
+        <File name="sipkd\__init__.py" />
+    </Project>
+</NotepadPlus>
