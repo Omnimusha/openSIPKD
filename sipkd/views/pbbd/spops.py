@@ -6,6 +6,7 @@ from pyramid.httpexceptions import HTTPForbidden
 from pyramid.security import remember
 from pyramid.security import forget
 from pyramid.security import has_permission
+
 from sqlalchemy import *
 from sipkd.models import *
 from sipkd.models.model import *
@@ -15,7 +16,14 @@ import types
 from sipkd.models.apps import osApps
 from sipkd.models.pbb.dat_objek_pajak import osDOP
 from sipkd.models.pbb.pbb import osPbb
+from sipkd.models.pbb.dat_subjek_pajak import osDSP
+from sipkd.models.pbb.dat_op_bumi import osDOPBumi
 
+
+def default(o):
+    if type(o) is DateTime:
+        return o.isoformat()
+        
 class osSpop(object):
     def __init__(self, context, request):
         self.context = context
@@ -55,6 +63,17 @@ class osSpop(object):
         request = self.request
         fields = request.matchdict
         frm = osPbb.frm_split(fields['f'])
-        if fields['f']:
-            datas=osDOP.get_by_form(frm)
-        
+        if frm:
+            datas=osDOP.row2dict(osDOP.get_by_form(frm))
+            
+        if datas:
+            print(datas)
+            data2=osDOPBumi.row2dict(osDOPBumi.get_by_kode(datas))
+            datas.update(data2)
+            data2=osDSP.row2dict(osDSP.get_by_kode(datas['subjek_pajak_id']))
+            datas.update(data2)
+            datas['found'] = 1
+        else:
+            datas['found'] = 0
+        datas['fail']=1
+        return json.dumps(datas, default=default)

@@ -2,38 +2,10 @@ from sipkd.models.model import *
 from sqlalchemy import and_
 from sipkd.models.pbb.pbb import osPbb
 import types
-
-class osDOP(Base):
-    __tablename__ = 'dat_objek_pajak'
-    kd_propinsi = Column(String(2), primary_key=True)
-    kd_dati2 = Column(String(2), primary_key=True)
-    kd_kecamatan = Column(String(3), primary_key=True)
-    kd_kelurahan = Column(String(3), primary_key=True)
-    kd_blok = Column(String(3), primary_key=True)
-    no_urut = Column(String(4), primary_key=True)
-    kd_jns_op = Column(String(1), primary_key=True)
-    subjek_pajak_id = Column(String(30))
-    no_formulir_spop = Column(String(11))
-    no_persil = Column(String(5))
-    jalan_op = Column(String(30))
-    blok_kav_no_op = Column(String(15))
-    rw_op = Column(String(2))
-    rt_op = Column(String(3))
-    kd_status_cabang = Column(Float)
-    kd_status_wp = Column(String(1))
-    total_luas_bumi = Column(Float)
-    total_luas_bng = Column(Float)
-    njop_bumi = Column(Float)
-    njop_bng = Column(Float)
-    status_peta_op = Column(Float)
-    jns_transaksi_op = Column(String(1))
-    tgl_pendataan_op = Column(DateTime)
-    nip_pendata = Column(String(18))
-    tgl_pemeriksaan_op = Column(DateTime)
-    nip_pemeriksa_op = Column(String(18))
-    tgl_perekaman_op = Column(DateTime)
-    nip_perekam_op = Column(String(18))
-   
+class osDSP(Base):
+    __tablename__ = 'dat_subjek_pajak'
+    __table_args__ = {'autoload': True}
+    
     def __init__(self):
       pass
       
@@ -45,7 +17,7 @@ class osDOP(Base):
                 d[column.name] = getattr(row, column.name)
         return d
 
-    
+
     @classmethod
     def get_rows(cls):
         return DBSession.query(cls).all()
@@ -59,23 +31,11 @@ class osDOP(Base):
         return DBSession.query(cls).filter(cls.nama==nama).first()
     
     @classmethod
-    def get_by_kode(cls,nop):
+    def get_by_kode(cls,id):
         return DBSession.query(cls).filter( and_(
-                cls.kd_propinsi==nop.kd_propinsi ,
-                cls.kd_dati2==nop.kd_dati2 ,
-                cls.kd_kecamatan==nop.kd_kecamatan ,
-                cls.kd_kelurahan==nop.kd_kelurahan ,
-                cls.kd_blok==nop.kd_blok ,
-                cls.no_urut==nop.no_urut ,
-                cls.kd_jns_op==nop.kd_jns_op)
+                cls.subjek_pajak_id==id)
                 ).first()        
 
-    @classmethod
-    def get_by_form(cls,frm):
-        return DBSession.query(cls).filter( 
-                cls.no_formulir_spop==osPbb.frm_merge(frm)
-                ).first()     
-                
     @classmethod
     def tambah(cls, datas):
         data=cls(datas)

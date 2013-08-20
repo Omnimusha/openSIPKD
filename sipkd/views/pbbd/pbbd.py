@@ -62,8 +62,6 @@ class PbbdViews(object):
         request = self.request
         resource = None
         url=request.resource_url(resource)
-
-
         datas= osSpop.BlankRow()
         
         if self.request.session['sa']==1:
@@ -80,6 +78,7 @@ class PbbdViews(object):
    
     @view_config(route_name='pbbdlspop',
                  renderer='../../templates/pbbd/lspop.pt')
+
     def pbbdlspop(self):
  
   

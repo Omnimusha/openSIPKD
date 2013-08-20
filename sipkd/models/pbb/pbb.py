@@ -17,8 +17,8 @@ class osPbb(object):
         
     @classmethod
     def frm_split(cls, frm):
-        return {'tahun':frm[1:4], 'bundle':frm[5:4], 'no_urut':frm[9:3]}
+        return {'tahun':frm[0:4], 'bundle':frm[4:8], 'no_urut':frm[8:11]}
         
     @classmethod
     def frm_merge(cls, frm):
-        return ''.join(frm.tahun, frm.bundle, frm.no_urut)
+        return ''.join((frm['tahun'],frm['bundle'],frm['no_urut']))

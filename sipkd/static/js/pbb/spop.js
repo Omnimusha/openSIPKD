@@ -507,13 +507,13 @@ $(document).ready(function () {
                     url: '/pbbd/spop/c1/' + trans + '/' + frm1 + frm2 + frm3,
                     success: function (json) {
                         data = JSON.parse(json);
-
-                        if (data['isFrmFail'] == "1") {
+                        alert(data['kd_propinsi']);
+                        if (data['fail'] == "1") {
                             var c = confirm('No Form Terakhir ' + data['frmmax'] + ' Lanjutkan?');
                             if (!c) return false;
                         }
 
-                        if (data['isFrmUsed'] == 1) {
+                        if (data['found'] == 1) {
                             var nopmsg = 'No. Form sudah digunakan untuk NOP: ' +
                                 data['kd_propinsi'] + '.' + data['kd_dati2'] + '-' + data['kd_kecamatan'] + '.' + data['kd_kelurahan'] + '-' +
                                 data['kd_blok'] + '.' + data['no_urut'] + '.' + data['kd_jns_op'];

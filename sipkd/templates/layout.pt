@@ -59,7 +59,7 @@
     <![endif]-->
 
     <script>
-        var timer;
+        /*var timer;
         var wait=10;
         document.onkeypress=resetTimer;
         document.onmousemove=resetTimer;
@@ -67,7 +67,7 @@
         function resetTimer() {
             clearTimeout(timer);
             timer=setTimeout("logout()", 60000*wait);
-        }
+        };*/
 
         function logout() {
             window.location.href='/logout';
@@ -84,7 +84,7 @@
                 $(this).removeData('modal');
             });
 
-        });
+        })
     </script>
 </head>
 
