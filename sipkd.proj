@@ -1,8 +1,13 @@
 <NotepadPlus>
     <Project name="pbb">
         <Folder name="model">
-            <File name="sipkd\models\pbb\dat_objek_pajak.py" />
             <File name="sipkd\models\pbb\pbb.py" />
+            <Folder name="data">
+                <File name="sipkd\models\pbb\data\dat_objek_pajak.py" />
+                <File name="sipkd\models\pbb\data\dat_op_bng.py" />
+                <File name="sipkd\models\pbb\data\dat_op_bumi.py" />
+                <File name="sipkd\models\pbb\data\dat_subjek_pajak.py" />
+            </Folder>
         </Folder>
         <Folder name="script">
             <File name="sipkd\static\js\pbb\spop.js" />
