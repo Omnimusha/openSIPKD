@@ -13,20 +13,10 @@ $(document).ready(function () {
 
         var trans = $("#jns_transaksi_op").val();
 
-        var frm1h = $("#frm1h").val();
-        var frm2h = $("#frm2h").val();
-        var frm3h = $("#frm3h").val();
-
         var frm1 = $("#frm1").val();
         var frm2 = $("#frm2").val();
         var frm3 = $("#frm3").val();
 
-        if (frm1h && frm2h && frm3h) {
-            if (frm1 != frm1h || frm2 != frm2h || frm3 != frm3h) {
-                alert('Data Formulir Tidak Sama');
-                return false;
-            }
-        }
 
         var kd_propinsi = $("#kd_propinsi").val();
         var kd_dati2 = $("#kd_dati2").val();
@@ -53,43 +43,23 @@ $(document).ready(function () {
             }
         }
 
-        var kec2h = $("#kec2h").val();
-        var kel2h = $("#kel2h").val();
-        var blk2h = $("#blk2h").val();
-        var urt2h = $("#urt2h").val();
-        var jns2h = $("#jns2h").val();
 
         var kec2 = $("#kec2").val();
         var kel2 = $("#kel2").val();
         var blk2 = $("#blk2").val();
         var urt2 = $("#urt2").val();
         var jns2 = $("#jns2").val();
-
-        if (kec2h && kel2h && blk2h && urt2h && jns2h) {
-            if (kec2 != kec2h || kel2 != kel2h || blk2 != blk2h || urt2 != urt2h || jns2 != jns2h) {
-                alert('Data NOP Bersama Tidak Sama');
-                return false;
-            }
-        }
-        var kec3h = $("#kec3h").val();
-        var kel3h = $("#kel3h").val();
-        var blk3h = $("#blk3h").val();
-        var urt3h = $("#urt3h").val();
-        var jns3h = $("#jns3h").val();
-
+        var nop2 =  kec2 + kel2 + blk2 + urt2 + jns2;
+        if (nop2=='') nop2='0';
+        
         var kec3 = $("#kec3").val();
         var kel3 = $("#kel3").val();
         var blk3 = $("#blk3").val();
         var urt3 = $("#urt3").val();
         var jns3 = $("#jns3").val();
-
-        if (kec3h && kel3h && blk3h && urt3h && jns3h) {
-            if (kec3 != kec3h || kel3 != kel3h || blk3 != blk3h || urt3 != urt3h || jns3 != jns3h) {
-                alert('Data NOP Asal Tidak Sama');
-                return false;
-            }
-        }
-
+        var nop3 =  kec3 + kel3 + blk3 + urt3 + jns3;
+        if (nop3=='') nop3='0';
+        
         var fmsg = "";
         //cek Tahun
         var d = new Date();
@@ -179,34 +149,32 @@ $(document).ready(function () {
             return false;
         }
         fmsg = '';
-        
-        if (!$("#readonly_state").val()) {
+        if ($("#readonly_state").val()=='readonly') {
             $.ajax({
-                url: $("#url_c1").val() + 'f121/f1211_c1?t=' + trans + '&f=' + frm1 + frm2 + frm3 + '&n=' + nop + '&b=' + kec2 + kel2 + blk2 + urt2 + jns2 + '&a=' + kec3 + kel3 + blk3 + urt3 + jns3,
+                url: '/pbbd/spop/c2/' + trans + '/' + frm1 + frm2 + frm3 + '/' + kd_kecamatan + 
+                     kd_kelurahan + kd_blok + no_urut + kd_jns_op + '/' + nop2+'/' + nop3,
                 success: function (json) {
                     data = JSON.parse(json);
 
-                    if (data['isFrmFail'] == "1") {
-                        var c = confirm('No Form Terakhir ' + data['frmmax'] + ' Lanjutkan?');
+                    if (data['frm_fail'] == "1") {
+                        var c = confirm('No Form Terakhir ' + data['frm_max'] + ' Lanjutkan?');
                         if (!c) return false;
                     }
 
-                    if (data['isFrmUsed'] == 1) {
+                    if (data['found'] == 1) {
                         var nopmsg = 'No. Form sudah digunakan untuk NOP: ' +
                             data['kd_propinsi'] + '.' + data['kd_dati2'] + '-' + data['kd_kecamatan'] + '.' + data['kd_kelurahan'] + '-' +
                             data['kd_blok'] + '.' + data['no_urut'] + '.' + data['kd_jns_op'];
 
-                        if (trans == 11) {
+                        if (trans == 1) { //tambah
                             alert(nopmsg);
                             return false;
                         } else {
-
-                            if (trans == 12 || trans == 22) {
+                            if (trans == 2) { //edit
                                 if (confirm(nopmsg + ' gunakan NOP?') == false) {
                                     return false;
                                 } else {
-
-                                    /*              $("#kec2").val(data['kec2']);
+/*              $("#kec2").val(data['kec2']);
               $("#kel2").val(data['kel2']);
               $("#blk2").val(data['blk2']);
               $("#urt2").val(data['urt2']);
@@ -218,7 +186,6 @@ $(document).ready(function () {
               $("#urt3").val(data['urt3']);
               $("#jns3").val(data['jns3']);
 */
-
                                     $("#kd_kecamatan").val(data['kd_kecamatan']);
                                     $("#kd_kelurahan").val(data['kd_kelurahan']);
                                     $("#kd_blok").val(data['kd_blok']);
@@ -234,19 +201,19 @@ $(document).ready(function () {
                                     $("#rt_op").val(data["rt_op"]);
                                     $("#kd_status_cabang").val(data["kd_status_cabang"]);
                                     $("#kd_status_wp").val(data["kd_status_wp"]);
+                                    
                                     $("#total_luas_bumi").val(data["total_luas_bumi"]);
                                     $("#total_luas_bng").val(data["total_luas_bng"]);
                                     $("#njop_bumi").val(data["njop_bumi"]);
                                     $("#njop_bng").val(data["njop_bng"]);
                                     $("#status_peta_op").val(data["status_peta_op"]);
-                                    $("#jns_transaksi_op").val(data["jns_transaksi_op"]);
+                                    //$("#jns_transaksi_op").val(data["jns_transaksi_op"]);
                                     $("#tgl_pendataan_op").val(data["tgl_pendataan_op"]);
                                     $("#nip_pendata").val(data["nip_pendata"]);
                                     $("#tgl_pemeriksaan_op").val(data["tgl_pemeriksaan_op"]);
                                     $("#nip_pemeriksa_op").val(data["nip_pemeriksa_op"]);
                                     $("#tgl_perekaman_op").val(data["tgl_perekaman_op"]);
                                     $("#nip_perekam_op").val(data["nip_perekam_op"]);
-
 
                                     $("#kd_znt").val(data["kd_znt"]);
                                     $("#luas_bumi").val(data["luas_bumi"]);
@@ -273,10 +240,10 @@ $(document).ready(function () {
                         }
                     }
 
-                    if (trans == '14' && data['induk'] < 1)
+                    if (trans == '4' && data['induk'] < 1)
                         fmsg = 'Data objek pajak atas NOP ' + nop +
                             ' bukan merupakan anggota OP bersama !';
-                    if (trans == '11' && data['hapus'] > 0)
+                    if (trans == '1' && data['hapus'] > 0)
                         fmsg = 'Data objek pajak atas NOP ' + nop +
                             ' sudah pernah ada dan sudah dihapus !';
 
@@ -290,25 +257,23 @@ $(document).ready(function () {
                     }
 
                     fmsg = '';
-                    if (trans == '11' && data['isNopUsed'] == 1)
+                    if (trans == '1' && data['nop_found'] == 1)
                         fmsg = 'Data Obyek Pajak atas NOP ' + nop + ' sudah ada dalam basis data !';
-                    else if (trans != '11' && data['isNopUsed'] == 0)
+                    else if (trans != '1' && data['isNopUsed'] == 0)
                         fmsg = 'Data Obyek Pajak atas NOP ' + nop + ' tidak ada dalam basis data !';
                     if (fmsg) {
                         alert(fmsg);
                         return false;
                     }
                     fmsg = '';
-                    if (trans == '12' || trans == '13' || trans == '14') {
+                    if (trans == '2' || trans == '3' || trans == '4') {
                         if (jns2) {
-                            var nop_induk = kec2 + '.' + kel2 + '-' + blk2 + '.' + urt2 + '.' + jns2;
-                            if (nop_induk) nop_induk = kd_propinsi + '.' + kd_dati2 + '-' + nop_induk;
+                            var nop_induk = kec2 + kel2 + blk2 + urt2 +  jns2;
+                            //if (nop_induk) nop_induk = kd_propinsi + kd_dati2 + '-' + nop_induk;
                         } else {
                             nop_induk = '';
                         }
-
-                        var nop_induk2 = data['nop_induk'];
-                        alert(nop_induk);
+                        /*
                         if (nop_induk2 != nop_induk) {
                             var msg = 'NOP Induk atas NOP ini adalah ' + nop_induk2 + ' ... Gunakan NOP induk ini ?';
                             if (confirm(msg) == true) {
@@ -318,63 +283,8 @@ $(document).ready(function () {
                                 urt2 = nop_induk2.substring(19, 4);
                                 jns2 = nop_induk2.substring(24, 1);
                             } else return false;
-                        }
+                        }*/
                     }
-                    /*bangunan
-		begin  
-	  select count(*) into vli_temp from dat_objek_pajak where kd_propinsi = :bl_nop.tx_prop and 
-		  kd_dati2 = :bl_nop.tx_dat and kd_kecamatan = :bl_nop.tx_kec and 
-		  kd_kelurahan = :bl_nop.tx_kel and kd_blok = :bl_nop.tx_blk and 
-		  no_urut = :bl_nop.tx_urut and kd_jns_op = :bl_nop.tx_jns;
-	exception when others then vli_temp := 0;
-	end;
-		
-   if vli_temp > 0 THEN
-			if :bl_nop.tx_jns_form = 'L' THEN
-			  begin
-			    select count(*) into vli_temp from dat_op_bangunan where kd_propinsi = :bl_nop.tx_prop and 
-				  kd_dati2 = :bl_nop.tx_dat and kd_kecamatan = :bl_nop.tx_kec and 
-				  kd_kelurahan = :bl_nop.tx_kel and kd_blok = :bl_nop.tx_blk and 
-				  no_urut = :bl_nop.tx_urut and kd_jns_op = :bl_nop.tx_jns;
-			  exception when others then vli_temp := 0;
-			  end;			  
-				if :bl_nop.tx_jns_trs  = '22' THEN
-				  if vli_temp <= 0 THEN Set_Alert_Property('AL_UMUM', ALERT_MESSAGE_TEXT, 'Data bangunan atas NOP '||
-				  	:bl_nop.tx_prop||'.'||:bl_nop.tx_dat||'.'||:bl_nop.tx_kec||'.'||
-				  	:bl_nop.tx_kel||'.'||:bl_nop.tx_blk||'-'||:bl_nop.tx_urut||'.'||:bl_nop.tx_jns||
-				  	' tidak ada dalam basis data !');
-				    vli_alert := Show_Alert('al_umum');
-				    Go_item('bl_nop.tx_prop');
-				  else Go_item('bl_nop_l.tx_no_1_l');
-				  end if;
-				elsif :bl_nop.tx_jns_trs  = '24' THEN
-					if vli_temp <= 0 THEN Set_Alert_Property('AL_UMUM', ALERT_MESSAGE_TEXT, 'Data bangunan atas NOP '||
-					 	:bl_nop.tx_prop||'.'||:bl_nop.tx_dat||'.'||:bl_nop.tx_kec||'.'||
-					 	:bl_nop.tx_kel||'.'||:bl_nop.tx_blk||'-'||:bl_nop.tx_urut||'.'||:bl_nop.tx_jns||
-					 	' tidak ada dalam basis data !');
-					  vli_alert := Show_Alert('al_umum');
-					  Go_item('bl_nop.tx_prop');
-					else Go_item('bl_nop_ind.tx_prop_k');
-					end if;
-				elsif :bl_nop.tx_jns_trs  = '23' THEN
-					if vli_temp <= 0 THEN Set_Alert_Property('AL_UMUM', ALERT_MESSAGE_TEXT, 'Data bangunan atas NOP '||
-					 	:bl_nop.tx_prop||'.'||:bl_nop.tx_dat||'.'||:bl_nop.tx_kec||'.'||
-					 	:bl_nop.tx_kel||'.'||:bl_nop.tx_blk||'-'||:bl_nop.tx_urut||'.'||:bl_nop.tx_jns||
-					 	' tidak ada dalam basis data !');
-					  vli_alert := Show_Alert('al_umum');
-					  Go_item('bl_nop.tx_prop');
-					else 
-					 	Go_item('bl_nop_l.tx_no_1_l');
-					end if;
-				elsif :bl_nop.tx_jns_trs = '21' THEN 
-					 	Go_item('bl_nop_l.tx_no_1_l'); 
-				end if;
-			end if;
-	  end if;
-	  */
-
-
-
                     //Fill Form
 
                     $("#frm1").attr('readonly', 'readonly');
@@ -382,6 +292,7 @@ $(document).ready(function () {
                     $("#frm3").attr('readonly', 'readonly');
                     $("#kd_kecamatan").attr('readonly', 'readonly');
                     $("#kd_kelurahan").attr('readonly', 'readonly');
+                    //$("#jns_transaksi_op").attr('readonly', 'readonly');
                     $("#kd_blok").attr('readonly', 'readonly');
                     $("#no_urut").attr('readonly', 'readonly');
                     $("#kd_jns_op").attr('readonly', 'readonly');
@@ -416,24 +327,25 @@ $(document).ready(function () {
                 $("#kd_kelurahan").val() + $("#kd_blok").val() + $("#no_urut").val() + $("#kd_jns_op").val();
         }
         $.ajax({
-            url: $("#url_c1").val() + "f121/f1211_cwp?id=" + id,
+            url: "/pbbd/dsp/" + id,
             success: function (json) {
                 data = JSON.parse(json);
+                alert(data);
                 if (data['found'] == 1) {
-                    $('#subjek_pajak_id').val($data['subjek_pajak_id']);
-                    $('#nm_wp').val($data['nm_wp']);
-                    $('#jalan_wp').val($data['jalan_wp']);
-                    $('#blok_kav_no_wp').val($data['blok_kav_no_wp']);
-                    $('#rw_wp').val($data['rw_wp']);
-                    $('#rt_wp').val($data['rt_wp']);
-                    $('#kelurahan_wp').val($data['kelurahan_wp']);
-                    $('#kota_wp').val($data['kota_wp']);
-                    $('#kd_pos_wp').val($data['kd_pos_wp']);
-                    $('#telp_wp').val($data['telp_wp']);
-                    $('#npwp').val($data['npwp']);
-                    $('#status_pekerjaan_wp').val($data['status_pekerjaan_wp']);
-                    $('#kecamatan_wp').val($data['kecamatan_wp']);
-                    $('#propinsi_wp').val($data['propinsi_wp']);
+                    $('#subjek_pajak_id').val(data['subjek_pajak_id']);
+                    $('#nm_wp').val(data['nm_wp']);
+                    $('#jalan_wp').val(data['jalan_wp']);
+                    $('#blok_kav_no_wp').val(data['blok_kav_no_wp']);
+                    $('#rw_wp').val(data['rw_wp']);
+                    $('#rt_wp').val(data['rt_wp']);
+                    $('#kelurahan_wp').val(data['kelurahan_wp']);
+                    $('#kota_wp').val(data['kota_wp']);
+                    $('#kd_pos_wp').val(data['kd_pos_wp']);
+                    $('#telp_wp').val(data['telp_wp']);
+                    $('#npwp').val(data['npwp']);
+                    $('#status_pekerjaan_wp').val(data['status_pekerjaan_wp']);
+                    $('#kecamatan_wp').val(data['kecamatan_wp']);
+                    $('#propinsi_wp').val(data['propinsi_wp']);
                 };
 
                 $('#subjek_pajak_id').removeAttr('readonly');
@@ -502,14 +414,13 @@ $(document).ready(function () {
                 return false;
             }
             fmsg = '';
-            if (!$("#readonly_state").val()) {
+            if ($("#readonly_state").val()=='readonly') {
                 $.ajax({
                     url: '/pbbd/spop/c1/' + trans + '/' + frm1 + frm2 + frm3,
                     success: function (json) {
                         data = JSON.parse(json);
-                        alert(data['kd_propinsi']);
-                        if (data['fail'] == "1") {
-                            var c = confirm('No Form Terakhir ' + data['frmmax'] + ' Lanjutkan?');
+                        if (data['frm_fail'] == "1") {
+                            var c = confirm('No Form Terakhir ' + data['frm_max'] + ' Lanjutkan?');
                             if (!c) return false;
                         }
 
@@ -518,12 +429,12 @@ $(document).ready(function () {
                                 data['kd_propinsi'] + '.' + data['kd_dati2'] + '-' + data['kd_kecamatan'] + '.' + data['kd_kelurahan'] + '-' +
                                 data['kd_blok'] + '.' + data['no_urut'] + '.' + data['kd_jns_op'];
 
-                            if (trans == 11) {
+                            if (trans == 1) {
                                 alert(nopmsg);
                                 return false;
                             } else {
 
-                                if (trans == 12) {
+                                if (trans == 2) {
                                     if (confirm(nopmsg + ', gunakan NOP?') == false) {
                                         return false;
                                     } else {
@@ -608,53 +519,6 @@ $(document).ready(function () {
         }
     });
 
-    $("#btn_cariwp").click(function () {
-        var id = $("#subjek_pajak_id").val();
-        if (!id) {
-            id = $("#kd_propinsi").val() + $("#kd_dati2").val() + $("#kd_kecamatn").val() +
-                $("#kd_kelurahan").val() + $("#kd_blok").val() + $("#no_urut").val() + $("#kd_jns_op").val();
-        }
-        $.ajax({
-            url: "/pbb/spop/cwp?id=" + id,
-            success: function (json) {
-                data = JSON.parse(json);
-                if (data['found'] == 1) {
-                    $('#subjek_pajak_id').val($data['subjek_pajak_id']);
-                    $('#nm_wp').val($data['nm_wp']);
-                    $('#jalan_wp').val($data['jalan_wp']);
-                    $('#blok_kav_no_wp').val($data['blok_kav_no_wp']);
-                    $('#rw_wp').val($data['rw_wp']);
-                    $('#rt_wp').val($data['rt_wp']);
-                    $('#kelurahan_wp').val($data['kelurahan_wp']);
-                    $('#kota_wp').val($data['kota_wp']);
-                    $('#kd_pos_wp').val($data['kd_pos_wp']);
-                    $('#telp_wp').val($data['telp_wp']);
-                    $('#npwp').val($data['npwp']);
-                    $('#status_pekerjaan_wp').val($data['status_pekerjaan_wp']);
-                    $('#kecamatan_wp').val($data['kecamatan_wp']);
-                    $('#propinsi_wp').val($data['propinsi_wp']);
-                };
-
-                $('#subjek_pajak_id').removeAttr('readonly');
-                $('#nm_wp').removeAttr('readonly');
-                $('#jalan_wp').removeAttr('readonly');
-                $('#blok_kav_no_wp').removeAttr('readonly');
-                $('#rw_wp').removeAttr('readonly');
-                $('#rt_wp').removeAttr('readonly');
-                $('#kelurahan_wp').removeAttr('readonly');
-                $('#kota_wp').removeAttr('readonly');
-                $('#kd_pos_wp').removeAttr('readonly');
-                $('#telp_wp').removeAttr('readonly');
-                $('#npwp').removeAttr('readonly');
-                $('#status_pekerjaan_wp').removeAttr('readonly');
-                $('#kecamatan_wp').removeAttr('readonly');
-                $('#propinsi_wp').removeAttr('readonly');
-            },
-            error: function (xhr, desc, er) {
-                alert(er);
-            }
-        });
-    });
     $("#btn_save").click(function () {
         $("#myform").submit();
 

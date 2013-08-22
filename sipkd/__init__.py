@@ -37,7 +37,9 @@ def main(global_config, **settings):
     config.add_route('pbbd', '/pbbd')
     config.add_route('pbbdspop', '/pbbd/spop')
     config.add_route('pbbdspopc1', '/pbbd/spop/c1/{t}/{f}')
+    config.add_route('pbbdspopc2', '/pbbd/spop/c2/{t}/{f}/{n1}/{n2}/{n3}')
     config.add_route('pbbdlspop', '/pbbd/lspop')
+    config.add_route('pbbddsp', '/pbbd/dsp/{kode}')
     
     
     config.scan()

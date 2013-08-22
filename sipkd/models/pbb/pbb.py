@@ -4,21 +4,26 @@ class osPbb(object):
       pass
       
     @classmethod
-    def nop_split(cls, nop):
-        return nop[1:2], nop[3:2], nop[5:3], nop[8:3], nop[11:3], nop[14:4], nop[18:1]  
+    def nop_split(cls, kode):
+        return {'kd_propinsi':kode[0:2], 'kd_dati2':kode[2:4], 'kd_kecamatan':kode[4:7], 'kd_kelurahan':kode[7:10], 
+                'kd_blok': kode[10:13], 'no_urut':kode[13:17], 'kd_jns_op':kode[17:18]}
         
     @classmethod
-    def nop_join(cls, kd_propinsi, kd_dati2, kd_kecamatan, kd_kelurahan, kd_blok, no_urut, kd_jns_op):
-        return ''.join(kd_propinsi, kd_dati2, kd_kecamatan, kd_kelurahan, kd_blok, no_urut, kd_jns_op)  
+    def nop_join(cls, kode):
+        return ''.join( (kode['kd_propinsi'], kode['kd_dati2'], kode['kd_kecamatan'], kode['kd_kelurahan'], 
+                        kode['kd_blok'], kode['no_urut'], kode['kd_jns_op']))  
         
     @classmethod
-    def nop_join_formated(cls, kd_propinsi, kd_dati2, kd_kecamatan, kd_kelurahan, kd_blok, no_urut, kd_jns_op):
-        return ''.join(kd_propinsi, kd_dati2, kd_kecamatan, kd_kelurahan, kd_blok, no_urut, kd_jns_op)  
+    def nop_join_format(cls, kode):
+        return ''.join( (kode['kd_propinsi'], '.', kode['kd_dati2'], '-', kode['kd_kecamatan'], '.', kode['kd_kelurahan'], 
+                        '-', kode['kd_blok'], kode['no_urut'], kode['kd_jns_op']))  
+
+    @classmethod
+    def frm_split(cls, kode):
+        return {'tahun':kode[0:4], 'bundle':kode[4:8], 'no_urut':kode[8:11]}
         
     @classmethod
-    def frm_split(cls, frm):
-        return {'tahun':frm[0:4], 'bundle':frm[4:8], 'no_urut':frm[8:11]}
-        
-    @classmethod
-    def frm_merge(cls, frm):
-        return ''.join((frm['tahun'],frm['bundle'],frm['no_urut']))
+    def frm_join(cls, kode):
+        return ''.join((kode['tahun'],kode['bundle'],kode['no_urut']))
+
+   

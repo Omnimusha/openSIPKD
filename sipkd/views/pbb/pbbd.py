@@ -13,7 +13,7 @@ from sqlalchemy.exc import DBAPIError
 import json
 import types
 from sipkd.models.apps import osApps
-from spops import osSpop
+from data.spops import osSpop
 
 class PbbdViews(object):
     def __init__(self, context, request):
@@ -51,34 +51,9 @@ class PbbdViews(object):
                     usernm=self.request.session['usernm'], 
                     opts=opts,
                     url=url)
-
-    @view_config(route_name='pbbdspop',
-                 renderer='../../templates/pbbd/spop.pt')
-    def pbbdspop(self):
-        session = self.request.session
-        if session['logged']<>1:
-           return HTTPFound(location='/logout') 
-
-        request = self.request
-        resource = None
-        url=request.resource_url(resource)
-        datas= osSpop.BlankRow()
-        
-        if self.request.session['sa']==1:
-            opts = osApps.get_rows()
-        else:
-            pass
-  
-        return dict(title="OpenSIPKD",
-                    message="",
-                    usernm=self.request.session['usernm'], 
-                    opts=opts,
-                    datas=datas,
-                    url=url)
    
     @view_config(route_name='pbbdlspop',
                  renderer='../../templates/pbbd/lspop.pt')
-
     def pbbdlspop(self):
  
   

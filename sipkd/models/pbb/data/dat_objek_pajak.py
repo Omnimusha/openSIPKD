@@ -73,7 +73,7 @@ class osDOP(Base):
     @classmethod
     def get_by_form(cls,frm):
         return DBSession.query(cls).filter( 
-                cls.no_formulir_spop==osPbb.frm_merge(frm)
+                cls.no_formulir_spop==osPbb.frm_join(frm)
                 ).first()     
                 
     @classmethod
@@ -150,4 +150,10 @@ class osDOP(Base):
                 cls.no_urut==nop.no_urut ,
                 cls.kd_jns_op==nop.kd_jns_op)
                 ).delete()
-
+    
+    @classmethod
+    def frm_max(cls,kode):
+        frm=osPbb.frm_join(kode)
+        return DBSession.query(
+                  func.max(cls.no_formulir_spop).label("frm_max")).filter(
+                      cls.no_formulir_spop.like(''.join((frm[0:7],'%')))).first()
