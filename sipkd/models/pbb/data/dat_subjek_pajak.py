@@ -4,7 +4,22 @@ from sipkd.models.pbb.pbb import osPbb
 import types
 class osDSP(Base):
     __tablename__ = 'dat_subjek_pajak'
-    __table_args__ = {'autoload': True}
+    #__table_args__ = {'autoload': True}
+    subjek_pajak_id = Column(String(30), primary_key=True)
+    nm_wp = Column(String(30))
+    jalan_wp = Column(String(30))
+    blok_kav_no_wp = Column(String(15))
+    rw_wp = Column(String(2))
+    rt_wp = Column(String(3))
+    kelurahan_wp = Column(String(30))
+    kota_wp = Column(String(30))
+    kd_pos_wp = Column(String(5))
+    telp_wp = Column(String(20))
+    npwp = Column(String(15))
+    status_pekerjaan_wp = Column(String(1))
+    kecamatan_wp = Column(String(30))
+    propinsi_wp = Column(String(30))
+
     
     def __init__(self):
       pass
